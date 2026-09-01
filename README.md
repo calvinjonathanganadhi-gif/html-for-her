@@ -20,23 +20,6 @@ The website is designed primarily for mobile viewing, while also supporting desk
 * 🖥️ Landscape and desktop support
 * ♿ Reduced-motion support for users who prefer less animation
 
-📁 Project Structure
-
-/
-├── index.html
-├── photo1.jpg
-├── photo2.jpg
-├── photo3.jpg
-├── photo4.jpg
-└── flowers/
-    ├── flower1.png
-    ├── flower2.png
-    ├── flower3.png
-    ├── flower4.png
-    ├── flower5.png
-    ├── flower6.png
-    └── flower7.png
-
 🌷 Adding Your Own Flowers
 
 The flower decorations use transparent PNG images.

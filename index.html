@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>For Joanna ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   RESET
+===================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    overflow: hidden;
+    color: #624b60;
+    font-family: "DM Serif Display", Georgia, serif;
+}
+/* =====================================================
+   PAGES
+===================================================== */
+.page {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding:
+        30px
+        22px
+        max(95px, env(safe-area-inset-bottom));
+    overflow: hidden;
+}
+.page.active {
+    display: flex;
+    animation:
+        pageEnter
+        .8s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* =====================================================
+   DECORATIONS
+===================================================== */
+.decorations {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+.content {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+}
+/* =====================================================
+   PAPER TEXTURE
+===================================================== */
+.paper {
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-image:
+        radial-gradient(
+            #684d62 .6px,
+            transparent .7px
+        );
+    background-size: 8px 8px;
+}
+/* =====================================================
+   PARTICLES
+===================================================== */
+.particles {
+    position: absolute;
+    inset: 0;
+}
+.particle {
+    position: absolute;
+    left: var(--x);
+    top: 105%;
+    width: var(--size);
+    height: var(--size);
+    opacity: 0;
+    animation:
+        floatParticle
+        var(--duration)
+        linear
+        var(--delay)
+        infinite;
+}
+.particle.dot {
+    border-radius: 50%;
+    background: rgba(255,255,255,.8);
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.75);
+}
+.particle.petal {
+    width: var(--size);
+    height: calc(var(--size) * 1.45);
+    border-radius:
+        70% 30% 70% 30%;
+    background:
+        rgba(255,220,235,.7);
+    transform: rotate(25deg);
+}
+@keyframes floatParticle {
+    0% {
+        opacity: 0;
+        transform:
+            translate3d(0,0,0)
+            rotate(0deg);
+    }
+    10% {
+        opacity: .8;
+    }
+    50% {
+        transform:
+            translate3d(
+                var(--drift),
+                -55vh,
+                0
+            )
+            rotate(180deg);
+    }
+    85% {
+        opacity: .65;
+    }
+    100% {
+        opacity: 0;
+        transform:
+            translate3d(
+                calc(var(--drift) * -1),
+                -115vh,
+                0
+            )
+            rotate(360deg);
+    }
+}
+/* =====================================================
+   FLOWERS
+===================================================== */
+.flowerField {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 2;
+}
+.flower {
+    position: absolute;
+    width: var(--size);
+    height: auto;
+    opacity: var(--opacity);
+    transform:
+        rotate(var(--rotation));
+    transform-origin:
+        50% 100%;
+    filter:
+        drop-shadow(
+            0 4px 5px
+            rgba(60,40,60,.12)
+        );
+    animation:
+        sway
+        var(--duration)
+        ease-in-out
+        var(--delay)
+        infinite alternate;
+}
+@keyframes sway {
+    from {
+        transform:
+            rotate(
+                calc(
+                    var(--rotation) - 3deg
+                )
+            )
+            translateY(0);
+    }
+    to {
+        transform:
+            rotate(
+                calc(
+                    var(--rotation) + 3deg
+                )
+            )
+            translateY(-5px);
+    }
+}
+/* =====================================================
+   CORNER FLOWERS
+===================================================== */
+.cornerFlower {
+    position: absolute;
+    width: var(--size);
+    opacity: .75;
+    filter:
+        drop-shadow(
+            0 4px 5px
+            rgba(60,40,60,.12)
+        );
+    animation:
+        cornerSway
+        var(--duration)
+        ease-in-out
+        var(--delay)
+        infinite alternate;
+}
+.cornerFlower.left {
+    left: var(--x);
+    top: var(--y);
+}
+.cornerFlower.right {
+    right: var(--x);
+    top: var(--y);
+}
+@keyframes cornerSway {
+    from {
+        transform:
+            rotate(-4deg)
+            translateY(0);
+    }
+    to {
+        transform:
+            rotate(5deg)
+            translateY(-5px);
+    }
+}
+/* =====================================================
+   BUTTONS
+===================================================== */
+.nextButton {
+    position: absolute;
+    left: 50%;
+    bottom:
+        max(
+            22px,
+            env(safe-area-inset-bottom)
+        );
+    transform: translateX(-50%);
+    z-index: 100;
+    padding: 12px 34px;
+    min-height: 50px;
+    border-radius: 100px;
+    border:
+        1px solid
+        rgba(130,90,120,.25);
+    background:
+        rgba(255,255,255,.68);
+    backdrop-filter: blur(10px);
+    color: #624b60;
+    font-family: "Caveat", cursive;
+    font-size: 1.35rem;
+    cursor: pointer;
+    box-shadow:
+        0 8px 25px
+        rgba(70,45,70,.10);
+    transition: .3s;
+}
+.nextButton:hover {
+    background: white;
+    transform:
+        translateX(-50%)
+        translateY(-4px);
+}
+/* =====================================================
+   PAGE 1
+===================================================== */
+#page1 {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            #ffffffb0,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            #d8b8ed88,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #fce6f1,
+            #eadcf8,
+            #f8dce9
+        );
+}
+.intro {
+    text-align: center;
+}
+.intro h1 {
+    font-size:
+        clamp(
+            2.5rem,
+            10vw,
+            5rem
+        );
+    font-weight: normal;
+    opacity: 0;
+    animation:
+        fadeUp
+        1.7s
+        ease
+        .5s
+        forwards;
+}
+.enterButton {
+    margin-top: 45px;
+    padding: 13px 40px;
+    min-height: 52px;
+    border-radius: 100px;
+    border:
+        1px solid
+        #aa82a455;
+    background:
+        rgba(255,255,255,.58);
+    color: #674e65;
+    font-family: "Caveat", cursive;
+    font-size: 1.45rem;
+    cursor: pointer;
+    opacity: 0;
+    animation:
+        fadeUp
+        1.4s
+        ease
+        1.4s
+        forwards;
+    transition: .3s;
+}
+.enterButton:hover {
+    background: white;
+    transform:
+        translateY(-4px)
+        scale(1.03);
+}
+.signature {
+    position: absolute;
+    bottom:
+        max(
+            28px,
+            env(safe-area-inset-bottom)
+        );
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: "Caveat", cursive;
+    font-size: 1.5rem;
+    z-index: 20;
+    opacity: 0;
+    animation:
+        fadeUp
+        1.5s
+        ease
+        2s
+        forwards;
+}
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =====================================================
+   PAGE 2 — SCRAPBOOK
+===================================================== */
+#page2 {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 31px,
+            rgba(160,130,100,.13) 32px
+        ),
+        #f3e4d5;
+    overflow-y: auto;
+}
+.scrapbookTitle {
+    position: relative;
+    z-index: 20;
+    max-width: 850px;
+    margin:
+        0 auto 20px;
+    text-align: center;
+    font-size:
+        clamp(
+            1.9rem,
+            8vw,
+            3.8rem
+        );
+    font-weight: normal;
+}
+.scrapbookTitle span {
+    display: block;
+    margin-top: 8px;
+    font-family: "Caveat", cursive;
+    font-size: 1.35rem;
+    opacity: .7;
+}
+.scrapbook {
+    position: relative;
+    z-index: 20;
+    width:
+        min(
+            900px,
+            100%
+        );
+    margin: auto;
+    display: grid;
+    grid-template-columns:
+        repeat(2,1fr);
+    gap: 22px;
+    padding: 15px;
+}
+.polaroid {
+    position: relative;
+    background: #fffdf9;
+    padding:
+        9px
+        9px
+        38px;
+    box-shadow:
+        0 12px 25px
+        rgba(70,50,40,.17);
+    animation:
+        photoDrop
+        .9s
+        cubic-bezier(.2,1.3,.4,1)
+        both;
+}
+.polaroid:nth-child(1) {
+    transform: rotate(-4deg);
+}
+.polaroid:nth-child(2) {
+    transform: rotate(3deg);
+    animation-delay: .15s;
+}
+.polaroid:nth-child(3) {
+    transform: rotate(-2deg);
+    animation-delay: .3s;
+}
+.polaroid:nth-child(4) {
+    transform: rotate(4deg);
+    animation-delay: .45s;
+}
+.polaroid img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: #e8dbe8;
+}
+.caption {
+    position: absolute;
+    bottom: 7px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: "Caveat", cursive;
+    font-size: 1.1rem;
+}
+.tape {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform:
+        translateX(-50%)
+        rotate(-2deg);
+    width: 75px;
+    height: 21px;
+    background:
+        rgba(226,186,199,.72);
+    z-index: 10;
+}
+@keyframes photoDrop {
+    from {
+        opacity: 0;
+        transform:
+            translateY(35px)
+            rotate(0)
+            scale(.95);
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* =====================================================
+   PAGE 3 — FAVORITE THINGS
+===================================================== */
+#page3 {
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            #ffffff99,
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #f9e7f1,
+            #eadff7
+        );
+}
+.memoryTitle {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    font-size:
+        clamp(
+            2rem,
+            8vw,
+            3.8rem
+        );
+    font-weight: normal;
+}
+.scrollHint {
+    position: relative;
+    z-index: 20;
+    font-family: "Caveat", cursive;
+    font-size: 1.25rem;
+    opacity: .65;
+    margin:
+        5px 0 15px;
+    text-align: center;
+}
+.memoryScroller {
+    position: relative;
+    z-index: 20;
+    width:
+        min(
+            720px,
+            100%
+        );
+    height: 57vh;
+    overflow-y: auto;
+    padding:
+        10px
+        15px
+        70px;
+    scrollbar-width: thin;
+}
+.memoryCard {
+    position: relative;
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .67
+        );
+    border:
+        1px solid
+        #ffffffaa;
+    padding:
+        20px 23px;
+    margin-bottom: 17px;
+    font-family:
+        "Caveat",
+        cursive;
+    font-size:
+        clamp(
+            1.3rem,
+            5vw,
+            1.6rem
+        );
+    line-height: 1.4;
+    box-shadow:
+        0 7px 20px
+        rgba(80,55,80,.08);
+}
+.memoryCard:nth-child(odd) {
+    transform: rotate(-1deg);
+}
+.memoryCard:nth-child(even) {
+    transform: rotate(1deg);
+}
+.memoryCard::after {
+    content: "♡";
+    position: absolute;
+    right: 13px;
+    top: 8px;
+    opacity: .35;
+}
+/* =====================================================
+   PAGE 4
+===================================================== */
+#page4 {
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            #ffffffaa,
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #fce7f2,
+            #e8daf7
+        );
+}
+.revealText {
+    position: relative;
+    z-index: 20;
+    max-width: 850px;
+    text-align: center;
+    font-size:
+        clamp(
+            2.3rem,
+            9vw,
+            4.6rem
+        );
+    line-height: 1.2;
+    animation:
+        reveal
+        1.6s
+        ease
+        forwards;
+}
+.revealText small {
+    display: block;
+    margin-top: 20px;
+    font-family: "Caveat", cursive;
+    font-size: .5em;
+    opacity: .7;
+}
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* =====================================================
+   PAGE 5
+===================================================== */
+#page5 {
+    background:
+        linear-gradient(
+            135deg,
+            #fce5f1,
+            #eadcf7
+        );
+}
+.note {
+    position: relative;
+    z-index: 20;
+    width:
+        min(
+            650px,
+            92vw
+        );
+    padding:
+        85px 25px 55px;
+    background:
+        #fff9e9;
+    border:
+        1px solid
+        #e5d5b7;
+    box-shadow:
+        0 20px 50px
+        rgba(70,50,60,.18);
+    transform: rotate(-1deg);
+    animation:
+        noteAppear
+        1.1s
+        cubic-bezier(.2,1.2,.4,1)
+        forwards;
+}
+.note::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border:
+        1px dashed
+        #d5bbc5;
+    pointer-events: none;
+}
+.ribbon {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        #c685a6;
+    color: white;
+    font-family:
+        "Caveat",
+        cursive;
+    font-size: 1.3rem;
+    z-index: 10;
+}
+.note h1 {
+    position: relative;
+    text-align: center;
+    font-size:
+        clamp(
+            2.2rem,
+            9vw,
+            4.3rem
+        );
+    line-height: 1.15;
+    font-weight: normal;
+}
+.noteText {
+    position: relative;
+    margin-top: 18px;
+    text-align: center;
+    font-family:
+        "Caveat",
+        cursive;
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+.answers {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+}
+.answer {
+    border: none;
+    border-radius: 100px;
+    padding:
+        13px 25px;
+    background:
+        #e5b8d0;
+    color:
+        #62465d;
+    font-family:
+        "Caveat",
+        cursive;
+    font-size:
+        1.35rem;
+    cursor: pointer;
+    transition: .3s;
+}
+.answer:hover {
+    transform:
+        translateY(-4px);
+    background:
+        #ddaec8;
+}
+@keyframes noteAppear {
+    from {
+        opacity: 0;
+        transform:
+            translateY(45px)
+            rotate(4deg)
+            scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform:
+            rotate(-1deg)
+            scale(1);
+    }
+}
+/* =====================================================
+   PAGE 6
+===================================================== */
+#page6 {
+    background:
+        radial-gradient(
+            circle at center,
+            #fff5fb,
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #fce4f1,
+            #e7d8f7
+        );
+    text-align: center;
+}
+.final {
+    position: relative;
+    z-index: 30;
+    animation:
+        celebration
+        1s
+        cubic-bezier(.2,1.4,.4,1)
+        forwards;
+}
+.final h1 {
+    font-family:
+        "Caveat",
+        cursive;
+    font-size:
+        clamp(
+            4rem,
+            16vw,
+            7rem
+        );
+    font-weight: normal;
+}
+.final p {
+    font-family:
+        "Caveat",
+        cursive;
+    font-size: 1.5rem;
+}
+@keyframes celebration {
+    from {
+        opacity: 0;
+        transform:
+            scale(.6)
+            rotate(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+/* =====================================================
+   HEARTS
+===================================================== */
+.heart {
+    position: absolute;
+    z-index: 25;
+    font-size: 2rem;
+    animation:
+        heartFloat
+        3s
+        ease-in-out
+        infinite;
+    opacity: .55;
+}
+.heart:nth-child(1) {
+    left: 12%;
+    top: 25%;
+}
+.heart:nth-child(2) {
+    right: 13%;
+    top: 30%;
+    animation-delay: .7s;
+}
+.heart:nth-child(3) {
+    left: 20%;
+    bottom: 25%;
+    animation-delay: 1.2s;
+}
+.heart:nth-child(4) {
+    right: 20%;
+    bottom: 22%;
+    animation-delay: 1.8s;
+}
+@keyframes heartFloat {
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(-5deg);
+    }
+    50% {
+        transform:
+            translateY(-18px)
+            rotate(8deg);
+    }
+}
+/* =====================================================
+   MOBILE
+===================================================== */
+@media (max-width: 500px) {
+    .page {
+        padding:
+            25px
+            18px
+            max(
+                90px,
+                env(safe-area-inset-bottom)
+            );
+    }
+    .scrapbook {
+        gap: 16px;
+        padding: 10px;
+    }
+    .polaroid {
+        padding:
+            7px
+            7px
+            32px;
+    }
+    .caption {
+        font-size: 1rem;
+    }
+    .memoryScroller {
+        height: 57vh;
+        padding:
+            10px
+            12px
+            60px;
+    }
+    .note {
+        padding:
+            72px
+            18px
+            48px;
+    }
+    .cornerFlower {
+        transform: scale(.7);
+    }
+}
+/* =====================================================
+   LANDSCAPE — PAGE 2
+===================================================== */
+@media
+(orientation: landscape)
+and (min-width: 501px) {
+    #page2 {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding:
+            18px
+            40px
+            85px;
+    }
+    #page2 .content {
+        width:
+            min(
+                1000px,
+                100%
+            );
+        margin: auto;
+    }
+    #page2 .scrapbookTitle {
+        font-size:
+            clamp(
+                2rem,
+                5vw,
+                3rem
+            );
+        margin-bottom: 12px;
+    }
+    #page2 .scrapbookTitle span {
+        font-size: 1.1rem;
+    }
+    #page2 .scrapbook {
+        width: 100%;
+        grid-template-columns:
+            repeat(4,1fr);
+        gap: 18px;
+        padding: 10px;
+    }
+    #page2 .polaroid {
+        padding:
+            7px
+            7px
+            30px;
+    }
+    #page2 .caption {
+        font-size: .95rem;
+    }
+    #page2 .nextButton {
+        bottom: 15px;
+    }
+}
+/* =====================================================
+   LANDSCAPE — PAGE 3
+===================================================== */
+@media
+(orientation: landscape)
+and (min-width: 501px) {
+    #page3 {
+        align-items: center;
+        padding:
+            15px
+            40px
+            75px;
+    }
+    #page3 .content {
+        width:
+            min(
+                850px,
+                100%
+            );
+    }
+    #page3 .memoryTitle {
+        font-size:
+            clamp(
+                2rem,
+                5vw,
+                3rem
+            );
+        margin-bottom: 0;
+    }
+    #page3 .scrollHint {
+        margin:
+            0 0 8px;
+        font-size: 1.1rem;
+    }
+    #page3 .memoryScroller {
+        width: 100%;
+        height: 58vh;
+        padding:
+            5px
+            12px
+            50px;
+    }
+    #page3 .memoryCard {
+        padding:
+            12px
+            18px;
+        margin-bottom: 10px;
+        font-size: 1.25rem;
+    }
+    #page3 .nextButton {
+        bottom: 15px;
+    }
+}
+/* =====================================================
+   LANDSCAPE — GENERAL
+===================================================== */
+@media
+(orientation: landscape)
+and (min-width: 501px)
+and (max-height: 600px) {
+    .flower {
+        transform:
+            scale(.85)
+            rotate(var(--rotation));
+    }
+    .cornerFlower {
+        transform:
+            scale(.75);
+    }
+}
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+@media
+(prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            .01ms !important;
+        animation-iteration-count:
+            1 !important;
+        transition-duration:
+            .01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+<!-- =====================================================
+     PAGE 1
+===================================================== -->
+<section id="page1" class="page active">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles1">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers1">
+        </div>
+    </div>
+    <div class="content intro">
+        <h1>
+            Dear Joanna,
+        </h1>
+        <button
+            class="enterButton"
+            onclick="goTo(2)"
+        >
+            Enter ♡
+        </button>
+    </div>
+    <div class="signature">
+        -calvin
+    </div>
+</section>
+<!-- =====================================================
+     PAGE 2
+===================================================== -->
+<section id="page2" class="page">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles2">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers2">
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="scrapbookTitle">
+            we made a lot of memories together
+            <span>
+                and I wanted to keep a few of them here ♡
+            </span>
+        </h1>
+        <div class="scrapbook">
+            <!-- Replace these with your photos -->
+            <div class="polaroid">
+                <div class="tape"></div>
+                <img
+                    src="photo1.jpg"
+                    alt="Memory 1"
+                >
+                <div class="caption">
+                    one of my favorites ♡
+                </div>
+            </div>
+            <div class="polaroid">
+                <div class="tape"></div>
+                <img
+                    src="photo2.jpg"
+                    alt="Memory 2"
+                >
+                <div class="caption">
+                    this one ♡
+                </div>
+            </div>
+            <div class="polaroid">
+                <div class="tape"></div>
+                <img
+                    src="photo3.jpg"
+                    alt="Memory 3"
+                >
+                <div class="caption">
+                    another little memory
+                </div>
+            </div>
+            <div class="polaroid">
+                <div class="tape"></div>
+                <img
+                    src="photo4.jpg"
+                    alt="Memory 4"
+                >
+                <div class="caption">
+                    more to come ♡
+                </div>
+            </div>
+        </div>
+    </div>
+    <button
+        class="nextButton"
+        onclick="goTo(3)"
+    >
+        keep going →
+    </button>
+</section>
+<!-- =====================================================
+     PAGE 3
+===================================================== -->
+<section id="page3" class="page">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles3">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers3">
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="memoryTitle">
+            My favorite things about you
+        </h1>
+        <div class="scrollHint">
+            scroll through them ♡
+        </div>
+        <div class="memoryScroller">
+            <div class="memoryCard">
+                Your smile
+            </div>
+            <div class="memoryCard">
+                Your eyes
+            </div>
+            <div class="memoryCard">
+                Your smell
+            </div>
+            <div class="memoryCard">
+                Your face
+            </div>
+            <div class="memoryCard">
+                Your ears
+            </div>
+            <div class="memoryCard">
+                Your nose
+            </div>
+            <div class="memoryCard">
+                Your hands
+            </div>
+            <div class="memoryCard">
+                Your skin
+            </div>
+            <div class="memoryCard">
+                Your attitude
+            </div>
+            <div class="memoryCard">
+                Your intelligence
+            </div>
+            <div class="memoryCard">
+                Your bravery
+            </div>
+            <div class="memoryCard">
+                Your laugh
+            </div>
+            <div class="memoryCard">
+                Your sense of humor
+            </div>
+            <div class="memoryCard">
+                Your kindness
+            </div>
+            <div class="memoryCard">
+                The way you listen
+            </div>
+            <div class="memoryCard">
+                Your determination
+            </div>
+            <div class="memoryCard">
+                The way you make ordinary
+                moments feel special
+            </div>
+            <div class="memoryCard">
+                The memories we make together
+            </div>
+            <div class="memoryCard">
+                The way you can make me smile
+                without even trying
+            </div>
+            <div class="memoryCard">
+                And honestly...
+                <br><br>
+                You, just being you. ♡
+            </div>
+        </div>
+    </div>
+    <button
+        class="nextButton"
+        onclick="goTo(4)"
+    >
+        one more thing →
+    </button>
+</section>
+<!-- =====================================================
+     PAGE 4
+===================================================== -->
+<section id="page4" class="page">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles4">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers4">
+        </div>
+    </div>
+    <div class="content revealText">
+        So i've been meaning to ask
+        for a while…
+        <small>
+            and I think I'm finally ready.
+        </small>
+    </div>
+    <button
+        class="nextButton"
+        onclick="goTo(5)"
+    >
+        next →
+    </button>
+</section>
+<!-- =====================================================
+     PAGE 5
+===================================================== -->
+<section id="page5" class="page">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles5">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers5">
+        </div>
+    </div>
+    <div class="content note">
+        <div class="ribbon">
+            A little note ♡
+        </div>
+        <h1>
+            Will you be my girlfriend?
+        </h1>
+        <p class="noteText">
+            I wanted to ask you properly.
+            <br>
+            So...
+            <br>
+            what do you say? ♡
+        </p>
+        <div class="answers">
+            <button
+                class="answer"
+                onclick="sayYes()"
+            >
+                Yes ♡
+            </button>
+            <button
+                class="answer"
+                onclick="sayYes()"
+            >
+                Absolutely yes ♡
+            </button>
+        </div>
+    </div>
+</section>
+<!-- =====================================================
+     PAGE 6
+===================================================== -->
+<section id="page6" class="page">
+    <div class="decorations">
+        <div class="paper"></div>
+        <div
+            class="particles"
+            id="particles6">
+        </div>
+        <div
+            class="flowerField"
+            id="flowers6">
+        </div>
+    </div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="heart">♡</div>
+    <div class="content final">
+        <h1>
+            YAY!! ♡
+        </h1>
+        <p>
+            I guess this worked :)
+        </p>
+    </div>
+</section>
+<script>
+/* =====================================================
+   FLOWER IMAGES
+===================================================== */
+/*
+   Put your PNG flower heads in:
+   flowers/
+       flower1.png
+       flower2.png
+       flower3.png
+       flower4.png
+       flower5.png
+       flower6.png
+       flower7.png
+*/
+const flowers = [
+    "flowers/flower1.png",
+    "flowers/flower2.png",
+    "flowers/flower3.png",
+    "flowers/flower4.png",
+    "flowers/flower5.png",
+    "flowers/flower6.png",
+    "flowers/flower7.png"
+];
+/* =====================================================
+   RANDOM NUMBER
+===================================================== */
+function random(min, max) {
+    return Math.random() *
+        (max - min) +
+        min;
+}
+/* =====================================================
+   CREATE FLOWERS
+===================================================== */
+function createFlowers(containerId) {
+    const container =
+        document.getElementById(
+            containerId
+        );
+    if (!container) return;
+    /*
+       Dense bottom meadow
+    */
+    const bottomAmount = 42;
+    for (
+        let i = 0;
+        i < bottomAmount;
+        i++
+    ) {
+        const flower =
+            document.createElement("img");
+        flower.className = "flower";
+        flower.src =
+            flowers[
+                Math.floor(
+                    Math.random()
+                    * flowers.length
+                )
+            ];
+        flower.style.setProperty(
+            "--size",
+            random(38,95) + "px"
+        );
+        flower.style.left =
+            random(-3,98) + "%";
+        flower.style.bottom =
+            random(-5,75) + "px";
+        flower.style.setProperty(
+            "--rotation",
+            random(-8,8) + "deg"
+        );
+        flower.style.setProperty(
+            "--opacity",
+            random(.55,.95)
+        );
+        flower.style.setProperty(
+            "--duration",
+            random(2.2,4.5) + "s"
+        );
+        flower.style.setProperty(
+            "--delay",
+            random(-4,0) + "s"
+        );
+        container.appendChild(
+            flower
+        );
+    }
+    /*
+       CORNER FLOWERS
+       Kept fairly dense because these
+       frame the page without interfering
+       with the center.
+    */
+    const cornerAmount = 12;
+    for (
+        let i = 0;
+        i < cornerAmount;
+        i++
+    ) {
+        const flower =
+            document.createElement("img");
+        flower.className =
+            "cornerFlower";
+        flower.src =
+            flowers[
+                Math.floor(
+                    Math.random()
+                    * flowers.length
+                )
+            ];
+        flower.style.setProperty(
+            "--size",
+            random(28,70) + "px"
+        );
+        flower.style.setProperty(
+            "--x",
+            random(0,12) + "%"
+        );
+        flower.style.setProperty(
+            "--y",
+            random(0,20) + "%"
+        );
+        flower.style.setProperty(
+            "--duration",
+            random(2.5,5) + "s"
+        );
+        flower.style.setProperty(
+            "--delay",
+            random(-4,0) + "s"
+        );
+        if (i % 2 === 0) {
+            flower.classList.add(
+                "left"
+            );
+        } else {
+            flower.classList.add(
+                "right"
+            );
+        }
+        container.appendChild(
+            flower
+        );
+    }
+    /*
+       VERY FEW SIDE FLOWERS
+       Only 4 total instead of 12.
+    */
+    const sideAmount = 4;
+    for (
+        let i = 0;
+        i < sideAmount;
+        i++
+    ) {
+        const flower =
+            document.createElement("img");
+        flower.className =
+            "cornerFlower";
+        flower.src =
+            flowers[
+                Math.floor(
+                    Math.random()
+                    * flowers.length
+                )
+            ];
+        flower.style.setProperty(
+            "--size",
+            random(30,60) + "px"
+        );
+        flower.style.setProperty(
+            "--y",
+            random(30,75) + "%"
+        );
+        flower.style.setProperty(
+            "--duration",
+            random(2.5,5) + "s"
+        );
+        flower.style.setProperty(
+            "--delay",
+            random(-4,0) + "s"
+        );
+        if (i % 2 === 0) {
+            flower.classList.add(
+                "left"
+            );
+            flower.style.setProperty(
+                "--x",
+                "0%"
+            );
+        } else {
+            flower.classList.add(
+                "right"
+            );
+            flower.style.setProperty(
+                "--x",
+                "0%"
+            );
+        }
+        container.appendChild(
+            flower
+        );
+    }
+}
+/* =====================================================
+   CREATE PARTICLES
+===================================================== */
+function createParticles(containerId) {
+    const container =
+        document.getElementById(
+            containerId
+        );
+    if (!container) return;
+    const amount = 55;
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+        const particle =
+            document.createElement("div");
+        /*
+           35% petals
+           65% glowing dots
+        */
+        if (
+            Math.random() < .35
+        ) {
+            particle.className =
+                "particle petal";
+        } else {
+            particle.className =
+                "particle dot";
+        }
+        particle.style.setProperty(
+            "--x",
+            random(0,100) + "%"
+        );
+        particle.style.setProperty(
+            "--size",
+            random(3,8) + "px"
+        );
+        particle.style.setProperty(
+            "--duration",
+            random(8,16) + "s"
+        );
+        particle.style.setProperty(
+            "--delay",
+            random(-15,0) + "s"
+        );
+        particle.style.setProperty(
+            "--drift",
+            random(-90,90) + "px"
+        );
+        container.appendChild(
+            particle
+        );
+    }
+}
+/* =====================================================
+   INITIALIZE DECORATIONS
+===================================================== */
+[
+    "flowers1",
+    "flowers2",
+    "flowers3",
+    "flowers4",
+    "flowers5",
+    "flowers6"
+]
+.forEach(createFlowers);
+[
+    "particles1",
+    "particles2",
+    "particles3",
+    "particles4",
+    "particles5",
+    "particles6"
+]
+.forEach(createParticles);
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+let currentPage = 1;
+function goTo(pageNumber) {
+    const oldPage =
+        document.getElementById(
+            "page" + currentPage
+        );
+    const newPage =
+        document.getElementById(
+            "page" + pageNumber
+        );
+    if (!newPage) return;
+    oldPage.classList.remove(
+        "active"
+    );
+    newPage.classList.add(
+        "active"
+    );
+    currentPage =
+        pageNumber;
+}
+/* =====================================================
+   YES
+===================================================== */
+function sayYes() {
+    goTo(6);
+}
+/* =====================================================
+   KEYBOARD SUPPORT
+===================================================== */
+document.addEventListener(
+    "keydown",
+    function(event) {
+        if (
+            event.key === "ArrowRight" &&
+            currentPage < 6
+        ) {
+            goTo(
+                currentPage + 1
+            );
+        }
+    }
+);
+</script>
+</body>
+</html>
